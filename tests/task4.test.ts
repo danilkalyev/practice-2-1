@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { createBookFromForm } from "../src/task4-integration";
-import type { Book } from './task1-types';
+import type { Book } from '../src/task1-types';
 
 describe("Task 4: Интеграция с DOM", () => {
   it("createBookFromForm должен создавать книгу из FormData", () => {
