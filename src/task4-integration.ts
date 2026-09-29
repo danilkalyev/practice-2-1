@@ -5,38 +5,44 @@ import { Book } from "./task1-types";
 
 /**
  * Создаёт объект Book из данных HTML-формы.
- * 
- * ВАЖНО: Данные из формы всегда приходят как строки. 
+ *
+ * ВАЖНО: Данные из формы всегда приходят как строки.
  * Ваша задача — преобразовать их в правильные типы и проверить границы значений.
  */
 export function createBookFromForm(formData: FormData): Book {
-  // TODO 1: Получите сырые значения полей формы
-  // Используйте formData.get("fieldName") as string
-  // Поля: title, authors, year, rating
+  // TODO 1: получаем сырые значения полей формы
+  const title = formData.get("title") as string;
+  const authorsStr = formData.get("authors") as string;
+  const yearStr = formData.get("year") as string;
+  const ratingStr = formData.get("rating") as string;
 
-  // TODO 2: Обработайте авторов
-  // Разбейте строку по запятой, уберите лишние пробелы (trim), 
-  // отфильтруйте пустые строки. Результат должен быть массивом string[].
+  // TODO 2: разбиваем авторов по запятой, убираем пробелы и пустые строки
+  const authors = authorsStr
+    .split(",")
+    .map((author) => author.trim())
+    .filter((author) => author !== "");
 
-  // TODO 3: Преобразуйте год
-  // Если поле года заполнено, преобразуйте строку в число через parseInt(str, 10).
-  // Если поле пустое, значение должно остаться undefined.
+  // TODO 3: год — число, если поле заполнено
+  let year: number | undefined = undefined;
+  if (yearStr) {
+    year = parseInt(yearStr, 10);
+  }
 
-  // TODO 4: Преобразуйте и ВАЛИДИРУЕМ рейтинг
-  // Если поле рейтинга заполнено, преобразуйте строку в число через parseFloat.
-  // Проверьте: если полученное число меньше 0 или больше 5, 
-  // выбросьте ошибку: throw new Error("Рейтинг должен быть числом от 0 до 5");
-  // Если поле пустое, значение должно остаться undefined.
+  // TODO 4: рейтинг — число от 0 до 5, если поле заполнено
+  let rating: number | undefined = undefined;
+  if (ratingStr) {
+    rating = parseFloat(ratingStr);
+    if (isNaN(rating) || rating < 0 || rating > 5) {
+      throw new Error("Рейтинг должен быть числом от 0 до 5");
+    }
+  }
 
-  // TODO 5: Сгенерируйте уникальный ID
-  // Используйте встроенную функцию crypto.randomUUID()
-
-  // TODO 6: Верните итоговый объект Book
+  // TODO 5 и 6: генерируем id и возвращаем книгу
   return {
-    id: "",       // замените на генерацию ID
-    title: "",    // замените на полученное значение
-    authors: [],  // замените на обработанный массив
-    year: undefined, // замените на преобразованное значение
-    rating: undefined, // замените на преобразованное и проверенное значение
+    id: crypto.randomUUID(),
+    title: title,
+    authors: authors,
+    year: year,
+    rating: rating,
   };
 }

@@ -9,7 +9,7 @@
 //   - year (number, опционально)
 //   - rating (number от 0 до 5, опционально)
 export interface Book {
-    id:string,
+    readonly id: string;
     title : string;
     authors: string[];
     year?:number; 
